@@ -64,7 +64,7 @@ public class ChicoryStaticAotTest {
     }
 
     @Benchmark
-    public void chicoryAotTest(ChicoryAotFixture fixture, Blackhole blackhole) throws IOException {
+    public void chicoryStaticAotTest(ChicoryAotFixture fixture, Blackhole blackhole) throws IOException {
         // automatically exported by TinyGo
         final ExportFunction malloc = fixture.instance.export("malloc");
         final ExportFunction free = fixture.instance.export("free");
