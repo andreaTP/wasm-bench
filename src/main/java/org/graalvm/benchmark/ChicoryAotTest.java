@@ -79,7 +79,7 @@ public class ChicoryAotTest {
         // Call the wasm function
         final Value result = wasmFunc.apply(Value.i32(ptr), Value.i32(fixture.paramLen))[0];
         // free input string memory
-        free.apply(Value.i32(ptr), Value.i32(fixture.paramLen));
+        free.apply(Value.i32(ptr));
 
         // Extract position and size from the result
         final int valuePosition = (int) ((result.asLong() >>> 32) & 0xFFFFFFFFL);
