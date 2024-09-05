@@ -12,7 +12,7 @@
         <uberjar.name>benchmarks</uberjar.name>
         <exec.mainClass>garden.bots.starter.Main</exec.mainClass>
         <graalvm.polyglot.version>24.0.2</graalvm.polyglot.version>
-        <chicory.version>999-SNAPSHOT</chicory.version>
+        <chicory.version>0.0.12</chicory.version>
         <jmh.version>1.37</jmh.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -34,20 +34,9 @@
         </dependency>
         
         <!-- Chicory -->
-
-        <dependency>
-            <groupId>com.dylibso.chicory</groupId>
-            <artifactId>demo-plugin-gen-aot</artifactId>
-            <version>${chicory.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.dylibso.chicory</groupId>
             <artifactId>aot</artifactId>
-            <version>${chicory.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.dylibso.chicory</groupId>
-            <artifactId>aot-runtime</artifactId>
             <version>${chicory.version}</version>
         </dependency>
         <dependency>

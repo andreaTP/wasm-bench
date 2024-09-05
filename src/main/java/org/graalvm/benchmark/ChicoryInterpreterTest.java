@@ -3,6 +3,7 @@ package org.graalvm.benchmark;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import com.dylibso.chicory.runtime.Module;
 import com.dylibso.chicory.wasm.Parser;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -40,9 +41,10 @@ public class ChicoryInterpreterTest {
         public Instance instance;
 
         Instance buildInstance(byte[] wasmBytes, HostImports imports) {
-            return Instance.builder(Parser.parse(wasmBytes))
+            return Module.builder(wasmBytes)
                     .withHostImports(imports)
-                    .build();
+                    .build()
+                    .instantiate();
         }
 
         @Setup(Level.Trial)

@@ -6,6 +6,7 @@ import com.dylibso.chicory.runtime.ExportFunction;
 import com.dylibso.chicory.runtime.HostImports;
 import com.dylibso.chicory.runtime.Instance;
 import com.dylibso.chicory.runtime.Memory;
+import com.dylibso.chicory.runtime.Module;
 import com.dylibso.chicory.wasi.WasiOptions;
 import com.dylibso.chicory.wasi.WasiPreview1;
 import com.dylibso.chicory.wasm.Parser;
@@ -40,10 +41,11 @@ public class ChicoryAotTest {
         public Instance instance;
 
         Instance buildInstance(byte[] wasmBytes, HostImports imports) {
-            return Instance.builder(Parser.parse(wasmBytes))
+            return Module.builder(wasmBytes)
                     .withMachineFactory(AotMachine::new)
                     .withHostImports(imports)
-                    .build();
+                    .build()
+                    .instantiate();
         }
 
         @Setup(Level.Trial)
