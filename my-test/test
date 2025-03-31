@@ -1,0 +1,32 @@
+///usr/bin/env jbang "$0" "$@" ; exit $?
+
+//DEPS com.dylibso.chicory:aot-experimental:999-SNAPSHOT
+
+//RUNTIME_OPTIONS -XX:+PrintCompilation -XX:+UnlockDiagnosticVMOptions -XX:+PrintInlining -XX:MaxInlineLevel=50
+
+import static java.lang.System.*;
+
+import java.io.File;
+import com.dylibso.chicory.experimental.aot.AotMachine;
+import com.dylibso.chicory.runtime.ExportFunction;
+import com.dylibso.chicory.runtime.Instance;
+import com.dylibso.chicory.wasm.Parser;
+
+public class test {
+
+    public static void main(String... args) {
+        out.println("Starting");
+
+        var instance = Instance.builder(Parser.parse(new File("/home/aperuffo/workspace/wasm-bench/src/main/resources/org/graalvm/benchmark/photon/bench.wasm")))
+            .withMachineFactory(AotMachine::new)
+            .build();
+
+        var function = instance.export("benchmarkRun");
+
+        for (int i = 0; i < 10; i++) {
+            function.apply();
+        }
+
+        out.println("End");
+    }
+}

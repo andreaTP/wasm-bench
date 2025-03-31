@@ -38,7 +38,7 @@ public class ChicoryPhotonTest {
   
     @State(Scope.Benchmark)
     public static class ChicoryFixture {
-        private static final String INTERPRETER = "interpreter";
+//        private static final String INTERPRETER = "interpreter";
         private static final String RUNTIME_AOT = "runtime-aot";
         private static final String PRECOMPILED_AOT = "precompiled-aot";
 
@@ -47,7 +47,7 @@ public class ChicoryPhotonTest {
         @Param({
             RUNTIME_AOT,
             PRECOMPILED_AOT,
-            INTERPRETER
+//            INTERPRETER
         })
         private String mode;
 
@@ -58,9 +58,9 @@ public class ChicoryPhotonTest {
             Instance instance = null;;
            
             switch (mode) {
-                case INTERPRETER:
-                    instance = Instance.builder(Parser.parse(wasmFileStream)).build();
-                    break;
+//                case INTERPRETER:
+//                    instance = Instance.builder(Parser.parse(wasmFileStream)).build();
+//                    break;
                 case RUNTIME_AOT:
                     instance = Instance.builder(Parser.parse(wasmFileStream))
                             .withMachineFactory(AotMachine::new)

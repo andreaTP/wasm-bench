@@ -12,7 +12,7 @@
         <uberjar.name>benchmarks</uberjar.name>
         <exec.mainClass>garden.bots.starter.Main</exec.mainClass>
         <graalvm.polyglot.version>24.1.1</graalvm.polyglot.version>
-        <chicory.version>1.0.0-M2</chicory.version>
+        <chicory.version>999-SNAPSHOT</chicory.version>
         <jmh.version>1.37</jmh.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -120,7 +120,6 @@
                     <!-- optionally provide a regexp of tests to run
                     e.g. -Djmh.tests="GraalWasmPhotonTest"
                     -->
-                <argument>${jmh.tests}</argument>
             </arguments>
         </configuration>
       </plugin>
