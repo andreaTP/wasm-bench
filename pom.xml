@@ -12,7 +12,7 @@
         <uberjar.name>benchmarks</uberjar.name>
         <exec.mainClass>garden.bots.starter.Main</exec.mainClass>
         <graalvm.polyglot.version>24.1.1</graalvm.polyglot.version>
-        <chicory.version>1.0.0-M2</chicory.version>
+        <chicory.version>1.2.1</chicory.version>
         <jmh.version>1.37</jmh.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -66,6 +66,11 @@
             <groupId>com.dylibso.chicory</groupId>
             <artifactId>wasm</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.prism</groupId>
+            <artifactId>java-prism</artifactId>
+            <version>999-SNAPSHOT</version>
+        </dependency>
         
         <!-- JMH -->
         <dependency>
@@ -83,6 +88,23 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.dylibso.chicory</groupId>
+        <artifactId>aot-maven-plugin-experimental</artifactId>
+        <version>${chicory.version}</version>
+        <executions>
+          <execution>
+            <id>prism</id>
+            <goals>
+              <goal>wasm-aot-gen</goal>
+            </goals>
+            <configuration>
+              <name>org.prism.Prism</name>
+              <wasmFile>src/main/resources/prism.wasm</wasmFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -123,35 +145,6 @@
                 <argument>${jmh.tests}</argument>
             </arguments>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>aot-maven-plugin-experimental</artifactId>
-        <version>${chicory.version}</version>
-        <executions>
-          <execution>
-            <id>hello-plugin</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>wasm-aot-gen</goal>
-            </goals>
-            <configuration>
-              <name>org.graalvm.benchmark.helloworld.Hello</name>
-              <wasmFile>${project.basedir}/src/main/resources/org/graalvm/benchmark/helloworld/hello.wasm</wasmFile>
-            </configuration>
-          </execution>
-          <execution>
-            <id>photon-plugin</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>wasm-aot-gen</goal>
-            </goals>
-            <configuration>
-              <name>org.graalvm.benchmark.photon.Photon</name>
-              <wasmFile>${project.basedir}/src/main/resources/org/graalvm/benchmark/photon/bench.wasm</wasmFile>
-            </configuration>
-          </execution>
-        </executions> 
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
