@@ -13,7 +13,6 @@ import com.dylibso.chicory.wasi.WasiPreview1;
 import com.dylibso.chicory.wasm.Parser;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
-import org.prism.ParsingOptions;
 import org.prism.PrismModule;
 
 import java.io.IOException;
@@ -49,7 +48,7 @@ public class ChicoryPrismTest {
             var imports = ImportValues.builder().addFunction(wasi.toHostFunctions()).build();
             switch (mode) {
                 case INTERPRETER:
-                    instance = Instance.builder(Parser.parse(Path.of("/home/aperuffo/workspace/prism/java-wasm/src/test/resources/prism.wasm")))
+                    instance = Instance.builder(Parser.parse(Path.of("./src/main/resources/prism.wasm")))
                             .withImportValues(imports)
                             .build();
                     break;
