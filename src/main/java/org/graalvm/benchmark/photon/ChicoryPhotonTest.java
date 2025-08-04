@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
+import com.dylibso.chicory.runtime.ByteArrayMemory;
+import com.dylibso.chicory.runtime.ByteBufferMemory;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -24,10 +26,8 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 
-import com.dylibso.chicory.experimental.aot.AotMachine;
 import com.dylibso.chicory.runtime.ExportFunction;
 import com.dylibso.chicory.runtime.Instance;
-import com.dylibso.chicory.wasm.Parser;
 
 @Warmup(iterations = 3)
 @Measurement(iterations = 3)
@@ -38,16 +38,14 @@ public class ChicoryPhotonTest {
   
     @State(Scope.Benchmark)
     public static class ChicoryFixture {
-        private static final String INTERPRETER = "interpreter";
-        private static final String RUNTIME_AOT = "runtime-aot";
-        private static final String PRECOMPILED_AOT = "precompiled-aot";
+        private static final String BYTE_BUFFER = "byte-buffer";
+        private static final String BYTE_ARRAY = "byte-array";
 
         public ExportFunction benchmarkFn;
 
         @Param({
-            RUNTIME_AOT,
-            PRECOMPILED_AOT,
-            INTERPRETER
+            BYTE_ARRAY,
+            BYTE_BUFFER
         })
         private String mode;
 
@@ -58,17 +56,16 @@ public class ChicoryPhotonTest {
             Instance instance = null;;
            
             switch (mode) {
-                case INTERPRETER:
-                    instance = Instance.builder(Parser.parse(wasmFileStream)).build();
-                    break;
-                case RUNTIME_AOT:
-                    instance = Instance.builder(Parser.parse(wasmFileStream))
-                            .withMachineFactory(AotMachine::new)
-                            .build();
-                    break;
-                case PRECOMPILED_AOT:
+                case BYTE_ARRAY:
                     instance = Instance.builder(PhotonModule.load())
                             .withMachineFactory(PhotonModule::create)
+                            .withMemoryFactory(ByteArrayMemory::new)
+                            .build();
+                    break;
+                case BYTE_BUFFER:
+                    instance = Instance.builder(PhotonModule.load())
+                            .withMachineFactory(PhotonModule::create)
+                            .withMemoryFactory(ByteBufferMemory::new)
                             .build();
                     break;
                 default:
